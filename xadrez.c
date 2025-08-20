@@ -1,4 +1,4 @@
-#include <stdio.h>
+
 
 // Desafio de Xadrez - MateCheck
 // Este código inicial serve como base para o desenvolvimento do sistema de movimentação das peças de xadrez.
@@ -8,75 +8,107 @@
 
 #include <stdio.h>
 
-// Desafio de Xadrez - MateCheck
-// Este código simula os movimentos básicos das peças de xadrez:
-// Torre, Bispo, Rainha e Cavalo.
+// ----------------------
+// Funções Recursivas
+// ----------------------
+
+void moverTorre(int casas) {
+    if (casas == 0) return;
+    printf("Direita\n");
+    moverTorre(casas - 1);
+}
+
+void moverRainha(int casas) {
+    if (casas == 0) return;
+    printf("Esquerda\n");
+    moverRainha(casas - 1);
+}
+
+void moverBispoRecursivo(int linhas, int colunas) {
+    if (linhas == 0 || colunas == 0) return;
+
+    // Loop aninhado: externo = vertical (linhas), interno = horizontal (colunas)
+    for (int i = 0; i < linhas; i++) {
+        for (int j = 0; j < colunas; j++) {
+            printf("Cima Direita\n");
+        }
+    }
+
+    // Chamada recursiva reduzindo o tamanho da "diagonal"
+    moverBispoRecursivo(linhas - 1, colunas - 1);
+}
+
+// ----------------------
+// Movimento do Cavalo
+// ----------------------
+
+void moverCavalo(int movimentosMaximos) {
+    printf("Movimento do Cavalo:\n");
+
+    int movimentosRealizados = 0;
+
+    for (int i = 0; i < 5; i++) { // Controle vertical (simulando movimento para cima)
+        for (int j = 0; j < 5; j++) { // Controle horizontal (para direita)
+            
+            // Simular condição do "L" (2 para cima, 1 para direita)
+            if (i == 2 && j == 1) {
+                printf("Cima\n");
+                printf("Cima\n");
+                printf("Direita\n");
+                movimentosRealizados++;
+                printf("--- Fim do movimento em L #%d ---\n", movimentosRealizados);
+            }
+
+            if (movimentosRealizados >= movimentosMaximos) {
+                break;
+            }
+        }
+
+        if (movimentosRealizados >= movimentosMaximos) {
+            break;
+        }
+    }
+
+    printf("\n");
+}
+
+// ----------------------
+// Função Principal
+// ----------------------
 
 int main() {
-    // Quantidade de casas para movimentar
-    int movimentosTorre = 5;
-    int movimentosBispo = 5;
-    int movimentosRainha = 8;
-    int movimentosCavalo = 3; // Número de movimentos em "L"
+    // Quantidade de casas ou movimentos para cada peça
+    int casasTorre = 5;
+    int casasRainha = 8;
+    int linhasBispo = 3;
+    int colunasBispo = 3;
+    int movimentosCavalo = 2;
 
     // -------------------
     // Movimento da TORRE
     // -------------------
-    // Torre se move em linha reta. Vamos simular 5 casas para a direita usando for.
     printf("Movimento da Torre:\n");
-    for (int i = 0; i < movimentosTorre; i++) {
-        printf("Direita\n");
-    }
-
+    moverTorre(casasTorre);
     printf("\n");
 
     // -------------------
     // Movimento do BISPO
     // -------------------
-    // Bispo se move na diagonal. Vamos simular 5 casas na diagonal para cima e à direita usando while.
     printf("Movimento do Bispo:\n");
-    int i = 0;
-    while (i < movimentosBispo) {
-        printf("Cima Direita\n");
-        i++;
-    }
-
+    moverBispoRecursivo(linhasBispo, colunasBispo);
     printf("\n");
 
     // -------------------
     // Movimento da RAINHA
     // -------------------
-    // Rainha se move em todas as direções. Vamos simular 8 casas para a esquerda usando do-while.
     printf("Movimento da Rainha:\n");
-    int j = 0;
-    do {
-        printf("Esquerda\n");
-        j++;
-    } while (j < movimentosRainha);
-
+    moverRainha(casasRainha);
     printf("\n");
 
     // -------------------
     // Movimento do CAVALO
     // -------------------
-    // Cavalo se move em "L": 2 casas para baixo, 1 casa para a esquerda
-    // Utilizando for (obrigatório) e while (aninhado)
-    printf("Movimento do Cavalo:\n");
-
-    for (int m = 0; m < movimentosCavalo; m++) {
-        int passos = 0;
-
-        // 2 casas para baixo
-        while (passos < 2) {
-            printf("Cima\n");
-            passos++;
-        }
-
-        // 1 casa para a esquerda
-        printf("Esquerda\n");
-
-        printf("--- Fim do movimento em L #%d ---\n", m + 1);
-    }
+    moverCavalo(movimentosCavalo);
 
     return 0;
 }
